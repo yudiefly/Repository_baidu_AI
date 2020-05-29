@@ -17,7 +17,7 @@ namespace Utilities
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static string driver_behavior(string token,string driveFileName)
+        private static string driver_behavior(string token,string driveFileName)
         {           
             string host = "https://aip.baidubce.com/rest/2.0/image-classify/v1/driver_behavior?access_token=" + token;
             Encoding encoding = Encoding.Default;
@@ -25,7 +25,7 @@ namespace Utilities
             request.Method = "post";
             request.KeepAlive = true;
             // 图片的base64编码
-            string base64 = getFileBase64(driveFileName);
+            string base64 = ComFuncs.getFileBase64(driveFileName);
             String str = "image=" + HttpUtility.UrlEncode(base64);
             byte[] buffer = encoding.GetBytes(str);
             request.ContentLength = buffer.Length;
@@ -56,22 +56,7 @@ namespace Utilities
                 Console.WriteLine("getDriverBehavior:{0}", ex.Message);
                 return null;
             }
-        }
-
-        /// <summary>
-        /// 将图片Base64编码
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public static String getFileBase64(String fileName)
-        {
-            FileStream filestream = new FileStream(fileName, FileMode.Open);
-            byte[] arr = new byte[filestream.Length];
-            filestream.Read(arr, 0, (int)filestream.Length);
-            string baser64 = Convert.ToBase64String(arr);
-            filestream.Close();
-            return baser64;
-        }
+        }       
     }
 
     public class DriverBehaviorReponse
